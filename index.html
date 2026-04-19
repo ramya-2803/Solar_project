@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solar Tilt Optimizer</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-brand">☀️ Solar Tilt Optimizer</div>
+  <div class="nav-menu">
+    <a href="#home" class="nav-link">Home</a>
+    <a href="#learn" class="nav-link">Learn</a>
+    <a href="#help" class="nav-link">Help</a>
+    <a href="#faq" class="nav-link">FAQ</a>
+    <a href="#credits" class="nav-link">Credits</a>
+  </div>
+</nav>
+
+<div id="animated-bg" class="animated-bg"></div>
+
+<main class="container">
+
+  <!-- HOME SECTION -->
+  <section id="home" class="section hero-section">
+    <div class="glass-card">
+      <h1 class="title">Find Your Optimal Solar Tilt</h1>
+      <p class="subtitle">Maximize your panel efficiency with AI-powered angle calculation</p>
+
+      <form id="tilt-form" class="form-group">
+        <div class="form-row">
+          <div class="form-field">
+            <label>📅 Date</label>
+            <input type="date" id="date" required>
+          </div>
+          <div class="form-field">
+            <label>📍 Latitude</label>
+            <input type="text" id="latitude" placeholder="Auto-detected" readonly>
+          </div>
+        </div>
+
+        <div class="form-field full">
+          <button type="button" id="map-toggle" class="btn-secondary">📍 Select from Map</button>
+        </div>
+
+        <div id="map-container" class="map-container hidden">
+          <div id="map"></div>
+        </div>
+
+        <div id="lat-pill" class="lat-pill hidden">📍 Latitude: <span id="lat-value"></span></div>
+
+        <div class="form-field full">
+          <button type="submit" class="btn-primary btn-lg">⚡ Calculate</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- LEARN SECTION -->
+  <section id="learn" class="section">
+    <h2>📚 Learn</h2>
+    <div class="cards-grid">
+      <div class="glass-card">
+        <h3>Solar Declination (δ)</h3>
+        <p><strong>Formula:</strong> δ = 23.45° × sin(360°/365 × (284 + day_of_year))</p>
+        <p>Describes Earth's axial tilt relative to the sun throughout the year. Ranges from -23.45° (winter) to +23.45° (summer).</p>
+      </div>
+
+      <div class="glass-card">
+        <h3>Incidence Angle (θ)</h3>
+        <p><strong>Formula:</strong> θ = |latitude - tilt - declination|</p>
+        <p>The angle between the sun's rays and the panel surface. Lower angles = better energy capture.</p>
+      </div>
+
+      <div class="glass-card">
+        <h3>Tilted Irradiance (I_tilted)</h3>
+        <p><strong>Formula:</strong> I_tilted = I_horizontal × cos(θ)</p>
+        <p>Solar irradiance on a tilted surface. Accounts for the angle between rays and panel.</p>
+      </div>
+
+      <div class="glass-card">
+        <h3>Cell Temperature (T_cell)</h3>
+        <p><strong>Formula:</strong> T_cell = T_ambient + (I_tilted / 800) × (NOCT - 20)</p>
+        <p>Panel temperature affects efficiency. Higher temp = lower efficiency. NOCT = 45°C (Nominal Operating Cell Temperature).</p>
+      </div>
+
+      <div class="glass-card">
+        <h3>Temperature-Adjusted Efficiency (η_T)</h3>
+        <p><strong>Formula:</strong> η_T = η_ref × (1 - 0.0045 × (T_cell - 25))</p>
+        <p>Reference efficiency = 20%. Efficiency decreases ~0.45% per °C above 25°C.</p>
+      </div>
+
+      <div class="glass-card">
+        <h3>Power Output (P)</h3>
+        <p><strong>Formula:</strong> P = η_T × I_use × A_panel, capped at inverter limit</p>
+        <p>Final AC power limited by inverter rating (350W). Peak efficiency at optimal tilt.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HELP SECTION -->
+  <section id="help" class="section">
+    <h2>🆘 Help & Guide</h2>
+    <div class="glass-card">
+      <h3>How to Use This App</h3>
+      <ol>
+        <li><strong>Select a Date:</strong> Choose the date you want to optimize for (e.g., today, summer solstice, winter solstice).</li>
+        <li><strong>Set Your Location:</strong> Either allow geolocation, let the app auto-detect via IP, or click the map to manually select your latitude.</li>
+        <li><strong>Click Calculate:</strong> Watch the sunrise animation and see your results on the dashboard.</li>
+        <li><strong>View Results:</strong> See optimal tilt angle, expected power, panel temperature, and energy gain vs. fixed tilt.</li>
+        <li><strong>Export & Share:</strong> Download your report as PDF or share the results link.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card">
+      <h3>Troubleshooting</h3>
+      <ul>
+        <li><strong>GPS/Location not detected?</strong> Click "📍 Select from Map" and manually choose your location on the interactive map.</li>
+        <li><strong>No results?</strong> Ensure you've entered a valid date and latitude is set (range: -90 to 90).</li>
+        <li><strong>PDF download fails?</strong> Check your browser's download settings and try again.</li>
+        <li><strong>Calculations seem off?</strong> Our ML model is trained on weather data. Different locations/dates may have varying prediction confidence.</li>
+      </ul>
+    </div>
+
+    <div class="glass-card">
+      <h3>Technical Details</h3>
+      <p><strong>Model:</strong> Machine learning (XGBoost/RandomForest) predicts horizontal irradiance from weather data.</p>
+      <p><strong>Physics:</strong> Tilt angle optimization uses solar geometry (declination, incidence angle) and thermal effects (NOCT, temperature derate).</p>
+      <p><strong>Data Source:</strong> Historical weather data (NASA/NOAA) + typical panel specifications.</p>
+    </div>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section id="faq" class="section">
+    <h2>❓ FAQ</h2>
+    <div class="faq-container">
+      <details class="faq-item glass-card">
+        <summary>Why does optimal tilt change daily?</summary>
+        <div class="faq-content">
+          <p>The sun's position in the sky changes throughout the year due to Earth's axial tilt. The solar declination varies from -23.45° (winter solstice) to +23.45° (summer solstice). For maximum energy capture on a specific date, the panel must be oriented to minimize the angle between the sun's rays and the surface. Seasonal optimization can yield 15-20% more energy than a fixed tilt set to latitude.</p>
+          <p><a href="#learn" onclick="document.querySelector('.nav-link[href=\'#learn\']').click()">Learn more about Solar Declination →</a></p>
+        </div>
+      </details>
+
+      <details class="faq-item glass-card">
+        <summary>How does ML improve accuracy?</summary>
+        <div class="faq-content">
+          <p>Traditional models assume clear-sky irradiance. Real-world irradiance depends on cloud cover, humidity, and atmospheric conditions. Our ML model learns from historical weather data to predict horizontal irradiance more accurately. This feeds into the tilt optimization, yielding better real-world power estimates. The model inputs include temperature, humidity, wind speed, and seasonal factors.</p>
+          <p><a href="#help" onclick="document.querySelector('.nav-link[href=\'#help\']').click()">See technical details →</a></p>
+        </div>
+      </details>
+
+      <details class="faq-item glass-card">
+        <summary>What if GPS fails?</summary>
+        <div class="faq-content">
+          <p>The app attempts geolocation in this order:</p>
+          <ol>
+            <li>Browser Geolocation API (requires your permission)</li>
+            <li>IP-based lookup (ipapi.co)</li>
+            <li>Manual map selection (click "📍 Select from Map")</li>
+          </ol>
+          <p>If all fail, you can always manually enter your latitude in the input field or click on the map.</p>
+        </div>
+      </details>
+
+      <details class="faq-item glass-card">
+        <summary>Why does temperature reduce efficiency?</summary>
+        <div class="faq-content">
+          <p>Solar panels lose efficiency at higher temperatures due to the bandgap reduction effect. For typical silicon panels, efficiency decreases by ~0.45% per °C above 25°C. Our model calculates cell temperature using irradiance and ambient conditions, then applies a temperature derate. On hot days, the optimal tilt may differ slightly to balance maximum irradiance with thermal losses.</p>
+          <p><a href="#learn" onclick="document.querySelector('.nav-link[href=\'#learn\']').click()">Read about temperature effects →</a></p>
+        </div>
+      </details>
+
+      <details class="faq-item glass-card">
+        <summary>What is "Energy Gain vs Fixed Tilt"?</summary>
+        <div class="faq-content">
+          <p>Fixed tilt systems are angled permanently at latitude (a simple rule of thumb). Energy gain shows the percentage improvement by using the optimal tilt for the chosen date. For example, a 25% gain means optimizing the tilt yields 25% more power than leaving it at a fixed latitude angle.</p>
+        </div>
+      </details>
+
+      <details class="faq-item glass-card">
+        <summary>Can I use this for real installations?</summary>
+        <div class="faq-content">
+          <p>This tool is designed for <strong>educational and estimating purposes</strong>. For production systems, consult professional solar engineers. Factors like roof slope, shading, structural limits, and local permits are critical and not modeled here.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- CREDITS SECTION -->
+  <section id="credits" class="section">
+    <div class="glass-card">
+      <h2>🏆 Credits & Resources</h2>
+      <p><strong>Physics & Solar Geometry:</strong> Based on standard solar radiation models (Spencer 1971, ASCE-EWRI).</p>
+      <p><strong>ML Model:</strong> Trained on NASA POWER and NOAA climate data.</p>
+      <p><strong>References:</strong></p>
+      <ul>
+        <li><a href="https://pvwatts.nrel.gov/" target="_blank">NREL PVWatts Calculator</a> – Industry standard for PV performance estimation</li>
+        <li><a href="https://power.larc.nasa.gov/" target="_blank">NASA POWER Data</a> – Global solar irradiance and weather data</li>
+        <li><a href="https://www.pvsyst.com/" target="_blank">PVsyst</a> – Professional PV system simulation</li>
+        <li><a href="https://en.wikipedia.org/wiki/Solar_declination" target="_blank">Solar Declination (Wikipedia)</a> – Earth-sun geometry</li>
+      </ul>
+      <p style="margin-top: 24px; text-align: center; font-style: italic; color: #dbeafe;">
+        Built with ☀️ and Python. Powered by Flask, Matplotlib, and machine learning.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<!-- Transition Overlay (for animation) -->
+<div id="transition-overlay" class="hidden overlay-transition"></div>
+
+<script src="index.js"></script>
+
+</body>
+</html>

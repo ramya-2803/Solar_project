@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solar Optimization Results</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-brand">☀️ Solar Tilt Optimizer</div>
+  <div class="nav-menu">
+    <a href="index.html" class="nav-link">← Back Home</a>
+  </div>
+</nav>
+
+<div id="animated-bg" class="animated-bg"></div>
+
+<main class="container">
+
+  <section class="section">
+    <h1 class="title">⚡ Optimization Results</h1>
+    <p class="subtitle">Your optimal solar panel configuration</p>
+
+    <!-- RESULTS GRID -->
+    <div class="results-grid">
+
+      <div class="glass-card stats-card">
+        <div class="stat-item"><div class="stat-label">Optimal Tilt</div><div class="stat-value"><span id="res-tilt">—</span>°</div></div>
+        <div class="stat-item"><div class="stat-label">Expected Power</div><div class="stat-value"><span id="res-power">—</span> W</div></div>
+        <div class="stat-item"><div class="stat-label">Panel Temperature</div><div class="stat-value"><span id="res-temp">—</span>°C</div></div>
+        <div class="stat-item"><div class="stat-label">Energy Gain vs Fixed</div><div class="stat-value"><span id="res-gain">—</span>%</div></div>
+      </div>
+
+      <div class="glass-card">
+        <h3>Calculation Details</h3>
+        <p><strong>Date:</strong> <span id="res-date">—</span></p>
+        <p><strong>Latitude:</strong> <span id="res-lat">—</span></p>
+        <p><strong>Fixed Tilt Reference:</strong> <span id="fixed-tilt">—</span>° (latitude rule)</p>
+      </div>
+
+    </div>
+
+    <!-- IMAGES SECTION -->
+    <div class="images-section" style="grid-template-columns: 1fr; gap: 24px;">
+      
+      <div class="image-card glass-card">
+        <h3>📊 Power vs Tilt</h3>
+        <img id="power-curve" alt="Power vs Tilt Chart" style="width: 100%; height: auto;">
+      </div>
+
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="actions">
+      <button id="save-pdf" class="btn-primary">📥 Save PDF Report</button>
+      <button id="share" class="btn-secondary">📤 Share Results</button>
+      <button id="recalc" class="btn-secondary">🔄 Recalculate</button>
+      <a href="index.html" class="btn-secondary">🏠 Home</a>
+    </div>
+
+    <!-- INFO SECTION -->
+    <div class="glass-card info-section">
+      <h2>📖 What This Means</h2>
+      <p><strong>Optimal Tilt:</strong> Best panel angle for today's sun path.</p>
+      <p><strong>Expected Power:</strong> Calculated from irradiance + losses.</p>
+      <p><strong>Panel Temperature:</strong> Affects efficiency — lower is better.</p>
+      <p><strong>Energy Gain:</strong> % improvement vs fixed tilt.</p>
+    </div>
+
+    <div class="glass-card" style="text-align: center; padding: 32px;">
+      <button id="show-gratitude" class="btn-primary" style="margin-top: 12px;">
+        🙏 Show Gratitude & Universe
+      </button>
+    </div>
+
+  </section>
+
+</main>
+
+<div id="gratitude-overlay" class="hidden gratitude-overlay">
+  <div class="gratitude-content">
+    <h2>Thank you for trusting us — may your panels always face the sun.</h2>
+    <div id="universe-container" style="height: 200px; position: relative; overflow: hidden;"></div>
+    <button onclick="document.getElementById('gratitude-overlay').classList.add('hidden')" class="btn-secondary">✕ Close</button>
+  </div>
+</div>
+
+<script src="result.js?v=3"></script>
+
+</body>
+</html>
