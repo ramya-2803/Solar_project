@@ -55,11 +55,6 @@ Whether you're a researcher, student, or renewable energy enthusiast, SolarSense
 
 ![Placement Guide](panel3d_test.png)
 
----
-
-## Project Workflow
-
-![Workflow](workflow.png)
 
 ---
 
@@ -76,31 +71,6 @@ Whether you're a researcher, student, or renewable energy enthusiast, SolarSense
 | HTML5 | Frontend |
 | CSS3 | Styling |
 | JavaScript | Client-side Interactivity |
-
----
-
-# 📂 Project Structure
-
-```text
-SolarSense/
-│
-├── app.py
-├── model.py
-├── predict.py
-├── visualization.py
-├── requirements.txt
-├── dashboard.png
-├── graph.png
-├── panel3d.png
-├── placement3d.png
-├── workflow.png
-├── dataset/
-├── static/
-├── templates/
-├── README.md
-├── LICENSE
-└── .gitignore
-```
 
 ---
 
@@ -319,10 +289,3 @@ Artificial Intelligence • Machine Learning • Renewable Energy • Data Scien
 
 ---
 
-# ⭐ Support the Project
-
-If you found this project useful, consider giving it a ⭐ on GitHub.
-
-Your support motivates further development and improvements!
-
----
