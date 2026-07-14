@@ -41,7 +41,7 @@ Whether you're a researcher, student, or renewable energy enthusiast, SolarSense
 
 ## Power vs Tilt Analysis
 
-![Power Graph](power_vs_tilt_graph.png)
+![Power Graph](power_vs_tilt_graph.jpg)
 
 ---
 
@@ -53,7 +53,7 @@ Whether you're a researcher, student, or renewable energy enthusiast, SolarSense
 
 ## Solar Panel Placement
 
-![Placement Guide](panle3d_test.png)
+![Placement Guide](panel3d_test.png)
 
 ---
 
